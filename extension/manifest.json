@@ -1,0 +1,15 @@
+{
+  "description": "Makes it easy to find, save, and share inspirational images and ideas",
+  "manifest_version": 2,
+  "name": "Clutter",
+  "version": "0.1",
+  "homepage_url": "https://github.com/matthew-mcallister/clutter",
+  "background": {
+    "scripts": ["src/background.js"]
+  },
+  "browser_action": {
+    "default_icon": "icons/clutter-32.png",
+    "default_title": "Add to Clutter"
+  },
+  "permissions": ["contextMenus"]
+}
