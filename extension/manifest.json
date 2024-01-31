@@ -5,7 +5,8 @@
   "version": "0.1",
   "homepage_url": "https://github.com/matthew-mcallister/clutter",
   "background": {
-    "scripts": ["src/background.js"]
+    "scripts": ["src/background.mjs"],
+    "type": "module"
   },
   "browser_action": {
     "default_icon": "icons/clutter-32.png",
