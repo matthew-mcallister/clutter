@@ -3,7 +3,8 @@ from pathlib import Path
 from hashlib import sha256
 
 import requests
-from flask import Blueprint
+from flask import Blueprint, url_for
+from flask import jsonify
 from flask import request
 
 from clutter import error
@@ -38,12 +39,21 @@ def download(src_url: str) -> Path:
         raise error.ValidationException('Invalid content type: ' + content_type)
     data = response.content
     sha = sha256(data)
-    p = config.download_dir / f'{sha.hexdigest()}.{extension}'
+    p = config.upload_dir / f'{sha.hexdigest()}.{extension}'
     p.write_bytes(data)
     return p
 
 
-@bp.post('/images')
+def get_images() -> list[str]:
+    urls = []
+    for path in config.upload_dir.glob('*'):
+        if path.suffix in ('.png', '.jpeg'):
+            url = url_for('static', filename=path.name, _external=True)
+            urls.append(url)
+    return urls
+
+
+@bp.route('/items', methods=['GET', 'POST'])
 @validate_json({
     'type': 'object',
     'required': ['source_url'],
@@ -51,7 +61,10 @@ def download(src_url: str) -> Path:
         'source_url': {'type': 'string', 'format': 'url'},
     },
 })
-def images() -> Any:
-    assert request.json
-    download(request.json['source_url'])
-    return '', 200
+def items() -> Any:
+    if request.method == 'POST':
+        assert request.json
+        download(request.json['source_url'])
+        return '', 201
+    elif request.method == 'GET':
+        return jsonify(get_images())

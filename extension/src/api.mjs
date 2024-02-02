@@ -20,7 +20,7 @@ async function request({ method, url, data }) {
     throw response
   }
   if (response.headers.get('Content-Type') === 'application/json') {
-    return JSON.parse(response.body)
+    return await response.json()
   } else {
     return null
   }
@@ -31,5 +31,5 @@ function post(url, data) {
 }
 
 export async function uploadImage(source_url) {
-  await post(API_URL + '/images', { source_url })
+  await post(API_URL + '/items', { source_url })
 }

@@ -3,11 +3,20 @@ from flask import Flask, Response, jsonify
 from werkzeug.exceptions import HTTPException
 
 from clutter import error
-
+from clutter.config import config
 from clutter.routes.item import bp as item_bp
 
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_url_path='/static',
+    static_folder=config.static_dir,
+)
+
+app.config.update(
+    HOST=config.host,
+    PORT=config.port,
+)
 
 app.register_blueprint(item_bp)
 
