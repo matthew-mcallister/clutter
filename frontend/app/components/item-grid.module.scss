@@ -1,0 +1,12 @@
+.image-view-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  & > * {
+    width: auto;
+    height: 200px;
+    max-height: 200px;
+  }
+}
