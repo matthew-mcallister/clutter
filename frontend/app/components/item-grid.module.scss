@@ -10,3 +10,8 @@
     max-height: 200px;
   }
 }
+
+.item:hover {
+  filter: brightness(1.25);
+  cursor: pointer;
+}
